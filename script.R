@@ -1,4 +1,6 @@
 
+Sys.setlocale("LC_ALL", "C")
+
 dat <- readRDS("data.rds")
 tm  <- readRDS("tm.rds")
 
