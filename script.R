@@ -1,4 +1,6 @@
-
+require(rJava)
+require(NLP)
+require(openNLP)
 Sys.setlocale(category = "LC_ALL", locale = "en_US.UTF-8")
 
 
@@ -23,10 +25,26 @@ top_10_products <- head(unique_products, 10) #Get top 10 most frequent products
 top_10_products 
 
 library(openNLP)
+require(rJava)
+require(NLP)
+require(openNLP)
 
 all_words <- unlist(strsplit(patients[,'product'], "\\s+")) #Split each sentence in 'product' column into individual words
-tagged_words <- pos_tag(all_words) #Assigning a type to each word
-nouns <- all_words[tagged_words$pos == "NN"] #Selecting only nouns
+
+## Need sentence and word token annotations.
+sent_token_annotator <- Maxent_Sent_Token_Annotator()
+word_token_annotator <- Maxent_Word_Token_Annotator()
+a2 <- annotate(all_words, list(sent_token_annotator, word_token_annotator)) 
+pos_tag_annotator <- Maxent_POS_Tag_Annotator()
+
+tagged_words <- annotate(all_words, pos_tag_annotator, a2)
+
+tagged_words$features[[20]]
+for(i in 13:length(tagged_words)){
+  if(as.String(tagged_words$features[[i]]) == "NN")
+    nouns[i] <- all_words[i]
+}
+nouns<-na.omit(nouns)
 
 word_counts <- table(nouns) #Count the frequency of each word
 unique_words <- data.frame(Word = names(word_counts), Frequency = as.vector(word_counts)) #Create a data frame with the word and its frequency
