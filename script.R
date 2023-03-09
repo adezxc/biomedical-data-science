@@ -80,7 +80,7 @@ head(age_counts, 3) #Print the three most common age groups for allergic reactio
 #3
 
 length(tm)
-tm2 <- tm[!test %in% row.names(patients), ]
+tm2 <- tm[-c(row.names(patients)), ]
 #tm2 <- tm[row.names(tm) != row.names(patients), ]
 #tm2 <- tm[tm[row.names(tm) != row.names(patients),], ]
 length(tm2)
