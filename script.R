@@ -17,6 +17,8 @@ rm(dat)
 
 patients[,'product'] #All products that caused symptoms for patients with allergic reactions
 
+################################
+#1
 product_counts <- table(patients$product) #Frequency of products
 unique_products <- data.frame(Product = names(product_counts), Frequency = as.vector(product_counts)) #Add frequency of products to the data frame
 unique_products <- unique_products[order(-unique_products$Frequency),] #Order the products (descending) by their frequency
@@ -49,7 +51,6 @@ top_20_words <- head(unique_words, 20) #Get top 10 most frequent words
 top_20_words
 
 
-
 matching_rows <- word_counts[word_counts == 'exemption 4']
 word_counts
 # Extract the ages for those rows
@@ -66,7 +67,8 @@ unique_industries <- unique_industries[order(-unique_industries$Frequency),] #Or
 top_10_industries <- head(unique_industries, 10) #Get top 10 most frequent industries
 top_10_industries 
 
-
+################################
+#2
 max_age <- max(patients$age, na.rm = TRUE) #Get highest age in patients data frame (excluding NA)
 age_groups <- cut(patients$age, breaks = seq(0, max_age, by = 10), right = FALSE) #Group ages into ranges by 10 from 0 to max_age
 age_counts <- table(age_groups) #Count number of allergic symptons for each age group
@@ -74,31 +76,18 @@ age_counts <- sort(age_counts, decreasing = TRUE)
 head(age_counts, 3) #Print the three most common age groups for allergic reactions
 
 
+################################
+#3
 
-# Get row names from patients
-exclude_rows <- rownames(patients)
-
-# Subset tm to exclude rows in exclude_rows
-tm_subset <- tm[!rownames(tm) %in% exclude_rows, ]
-
-# Get column names with highest colsum values
-colsums <- colSums(tm_subset)
-top_cols <- names(sort(colsums, decreasing = TRUE)[1:5])
-top_cols
-
-
-
-tm2 <- tm[ , ]
+length(tm)
+tm2 <- tm[!test %in% row.names(patients), ]
+#tm2 <- tm[row.names(tm) != row.names(patients), ]
+#tm2 <- tm[tm[row.names(tm) != row.names(patients),], ]
 length(tm2)
 head(tm2)
 head(rownames(patients))
 colsum <- colSums(tm2, na.rm = TRUE)  #calculation of colsums
 colsum_ordered <- sort(colsum, decreasing = TRUE)  #Order column sums (descending order)
 head(colsum_ordered)
+head()
 
-
-
-
-
-test[1,0]
-rownames(allergies)
